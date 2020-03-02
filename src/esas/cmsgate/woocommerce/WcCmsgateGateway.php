@@ -3,6 +3,7 @@
 use esas\cmsgate\Registry;
 use esas\cmsgate\view\admin\ConfigForm;
 use esas\cmsgate\view\Messages;
+use esas\cmsgate\view\ViewUtils;
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
@@ -91,5 +92,15 @@ class WcCmsgateGateway extends WC_Payment_Gateway
     public function display_settings_errors()
     {
         $this->display_errors();
+    }
+
+    protected function redirectFailure($loggerName, $ex)
+    {
+        $message = ViewUtils::logAndGetMsg($loggerName, $ex);
+        wc_add_notice($message, 'error');
+        return array(
+            'result' => 'error',
+            'redirect' => $this->get_return_url($order)
+        );
     }
 }
