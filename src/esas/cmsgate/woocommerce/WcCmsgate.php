@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-class WcCmsgateGateway extends WC_Payment_Gateway
+class WcCmsgate extends WC_Payment_Gateway
 {
 
     /**
