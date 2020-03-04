@@ -8,6 +8,7 @@
 
 namespace esas\cmsgate\wrappers;
 
+use bgpb\cmsgate\RegistryBGPBWoo;
 use Throwable;
 
 class OrderWrapperWoo extends OrderSafeWrapper
@@ -34,9 +35,24 @@ class OrderWrapperWoo extends OrderSafeWrapper
         return $this->wc_order->get_id();
     }
 
-    public function getOrderNumber()
+
+    public function getOrderNumberUnsafe()
     {
-        return $this->wc_order->get_order_number(); // может отличаться от внутреннего идентификатора, если используются хуки, меняющие номера заказаов
+        return $this->wc_order->get_order_number();
+//        return $this->createUniqOrderNumber($this->wc_order->get_order_number()); // может отличаться от внутреннего идентификатора, если используются хуки, меняющие номера заказаов
+    }
+
+    /**
+     * @param $orderNumber
+     * @return string
+     * @throws Throwable
+     */
+    private function createUniqOrderNumber($orderNumber) {
+        $metaKey = RegistryBGPBWoo::getRegistry()->getPaySystemName() . '_unsuccess_counter';
+        $attemptCounter = get_post_meta($this->getOrderId(), $metaKey, true);
+        $attemptCounter = empty($attemptCounter) ? 1 : $attemptCounter + 1;
+        update_post_meta($this->getOrderId(), $metaKey, $attemptCounter);
+        return $orderNumber . '_' . $attemptCounter;
     }
 
 
@@ -101,7 +117,7 @@ class OrderWrapperWoo extends OrderSafeWrapper
      */
     public function getAmountUnsafe()
     {
-        return $this->wc_order->get_total();
+        return intval($this->wc_order->get_total() * 100);
     }
 
     /**

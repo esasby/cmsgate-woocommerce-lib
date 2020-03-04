@@ -58,6 +58,7 @@ class ConfigStorageWoo extends ConfigStorageCms
     {
 //        update_option( $option_name, $newvalue, $autoload ) //скорее всего тут все обновляется группой
         $this->settings[$key] = $value;
+        update_option("woocommerce_" . Registry::getRegistry()->getPaySystemName() . "_settings", $this->settings);
         //todo D:/work/esas/sources/php/CMSSources/wordpress/wp-content/plugins/woocommerce/includes/abstracts/abstract-wc-settings-api.php:219
     }
 }

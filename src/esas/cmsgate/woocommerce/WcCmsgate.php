@@ -1,9 +1,15 @@
 <?php
 
+namespace esas\cmsgate\woocommerce;
+
 use esas\cmsgate\Registry;
+use esas\cmsgate\utils\Logger;
 use esas\cmsgate\view\admin\ConfigForm;
-use esas\cmsgate\view\Messages;
+use esas\cmsgate\messenger\Messages;
 use esas\cmsgate\view\ViewUtils;
+use Exception;
+use Throwable;
+use WC_Payment_Gateway;
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
@@ -102,5 +108,21 @@ class WcCmsgate extends WC_Payment_Gateway
             'result' => 'error',
             'redirect' => $this->get_return_url($order)
         );
+    }
+
+    public function savesettings($configForm = null)
+    {
+        try {
+            if ($configForm == null)
+                $configForm = Registry::getRegistry()->getConfigForm();
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST)) && is_array($_POST) && count($_POST) > 0) {
+                $configForm->validate();
+                $configForm->save();
+            }
+        } catch (Throwable $e) {
+            Logger::getLogger("SaveSettings")->error("Exception", $e);
+        } catch (Exception $e) { // для совместимости с php 5
+            Logger::getLogger("SaveSettings")->error("Exception", $e);
+        }
     }
 }
