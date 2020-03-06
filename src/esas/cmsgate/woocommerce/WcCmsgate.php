@@ -100,16 +100,6 @@ class WcCmsgate extends WC_Payment_Gateway
         $this->display_errors();
     }
 
-    protected function redirectFailure($loggerName, $ex)
-    {
-        $message = ViewUtils::logAndGetMsg($loggerName, $ex);
-        wc_add_notice($message, 'error');
-        return array(
-            'result' => 'error',
-            'redirect' => $this->get_return_url($order)
-        );
-    }
-
     public function savesettings($configForm = null)
     {
         try {

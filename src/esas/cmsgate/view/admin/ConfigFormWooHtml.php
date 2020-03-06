@@ -9,7 +9,6 @@
 namespace esas\cmsgate\view\admin;
 
 
-use esas\cmsgate\Registry;
 use esas\cmsgate\utils\htmlbuilder\Attributes as attribute;
 use esas\cmsgate\utils\htmlbuilder\Elements as element;
 use esas\cmsgate\view\admin\fields\ConfigField;
@@ -32,7 +31,6 @@ class ConfigFormWooHtml extends ConfigFormHtml
             $this->orderStatuses[$statusKey] = new ListOption($statusKey, $statusName);
         }
     }
-
 
     public function generate()
     {
@@ -57,20 +55,7 @@ class ConfigFormWooHtml extends ConfigFormHtml
             );
     }
 
-    private function elementSubmitButtons()
-    {
-        $ret = "";
-        if (isset($this->submitButtons)) {
-            foreach ($this->submitButtons as $buttonName => $buttonValue) {
-                $ret .= self::elementInputSubmit($buttonName, $buttonValue) . "&nbsp;";
-            }
-//        } else if (isset($this->submitUrl))
-        } else
-            $ret = self::elementInputSubmit("submit_button", Registry::getRegistry()->getTranslator()->translate(AdminViewFields::CONFIG_FORM_BUTTON_SAVE));
-        return $ret;
-    }
-
-    private static function elementInputSubmit($name, $value)
+    protected function elementInputSubmit($name, $value)
     {
         return
             element::input(
