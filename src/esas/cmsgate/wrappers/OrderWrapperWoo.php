@@ -8,7 +8,6 @@
 
 namespace esas\cmsgate\wrappers;
 
-use bgpb\cmsgate\RegistryBGPBWoo;
 use Throwable;
 
 class OrderWrapperWoo extends OrderSafeWrapper
@@ -154,7 +153,6 @@ class OrderWrapperWoo extends OrderSafeWrapper
     /**
      * Обновляет статус заказа в БД
      * @param $newStatus
-     * @return mixed
      * @throws Throwable
      */
     public function updateStatus($newStatus)
@@ -165,7 +163,6 @@ class OrderWrapperWoo extends OrderSafeWrapper
     /**
      * Сохраняет привязку billid к заказу
      * @param $billId
-     * @return mixed
      * @throws Throwable
      */
     public function saveExtId($billId)

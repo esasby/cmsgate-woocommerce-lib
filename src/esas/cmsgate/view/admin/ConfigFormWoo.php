@@ -23,9 +23,9 @@ class ConfigFormWoo extends ConfigFormArray
     /**
      * ConfigFieldsRenderWoo constructor.
      */
-    public function __construct($managedFields)
+    public function __construct($formKey, $managedFields)
     {
-        parent::__construct($managedFields);
+        parent::__construct($formKey, $managedFields);
         $orderStatuses = $array = wc_get_order_statuses();
         foreach ($orderStatuses as $statusKey => $statusName) {
             $this->orderStatuses[$statusKey] = new ListOption($statusKey, $statusName);

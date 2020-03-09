@@ -6,7 +6,6 @@ use esas\cmsgate\Registry;
 use esas\cmsgate\utils\Logger;
 use esas\cmsgate\view\admin\ConfigForm;
 use esas\cmsgate\messenger\Messages;
-use esas\cmsgate\view\ViewUtils;
 use Exception;
 use Throwable;
 use WC_Payment_Gateway;

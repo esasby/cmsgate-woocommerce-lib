@@ -23,9 +23,9 @@ class ConfigFormWooHtml extends ConfigFormHtml
 {
     private $orderStatuses;
 
-    public function __construct($managedFields, $headingTitle, $submitUrl, $submitButtons)
+    public function __construct($managedFields, $formKey, $submitUrl, $submitButtons)
     {
-        parent::__construct($managedFields, $headingTitle, $submitUrl, $submitButtons);
+        parent::__construct($managedFields, $formKey, $submitUrl, $submitButtons);
         $orderStatuses = $array = wc_get_order_statuses();
         foreach ($orderStatuses as $statusKey => $statusName) {
             $this->orderStatuses[$statusKey] = new ListOption($statusKey, $statusName);
