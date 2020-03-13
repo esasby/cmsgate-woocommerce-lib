@@ -17,10 +17,15 @@ class OrderWrapperWoo extends OrderSafeWrapper
     /**
      * OrderWrapperWoo constructor.
      */
-    public function __construct($order_id)
+    public function __construct($orderId)
     {
         parent::__construct();
-        $this->wc_order = wc_get_order($order_id);
+        if ($orderId == null) {
+            $currentUser = get_current_user_id();
+            $lastOrder = wc_get_customer_last_order($currentUser);
+            $orderId = $lastOrder->get_id();
+        }
+        $this->wc_order = wc_get_order($orderId);
     }
 
 

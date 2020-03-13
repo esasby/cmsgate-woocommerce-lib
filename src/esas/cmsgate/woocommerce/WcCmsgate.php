@@ -6,6 +6,8 @@ use esas\cmsgate\Registry;
 use esas\cmsgate\utils\Logger;
 use esas\cmsgate\view\admin\ConfigForm;
 use esas\cmsgate\messenger\Messages;
+use esas\cmsgate\view\ViewUtilsWoo;
+use esas\cmsgate\wrappers\OrderWrapper;
 use Exception;
 use Throwable;
 use WC_Payment_Gateway;
@@ -14,7 +16,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-class WcCmsgate extends WC_Payment_Gateway
+abstract class WcCmsgate extends WC_Payment_Gateway
 {
 
     /**
@@ -23,16 +25,6 @@ class WcCmsgate extends WC_Payment_Gateway
     protected $configForm;
 
     protected static $plugin_options = null;
-
-    protected static $_instance = null;
-
-    public static function get_instance()
-    {
-        if (is_null(self::$_instance)) {
-            self::$_instance = new self();
-        }
-        return self::$_instance;
-    }
 
     // Setup our Gateway's id, description and other values
     function __construct()
@@ -98,6 +90,38 @@ class WcCmsgate extends WC_Payment_Gateway
     {
         $this->display_errors();
     }
+
+    // Submit payment and handle response
+    public function process_payment($order_id)
+    {
+        try {
+            $order = wc_get_order($order_id);
+            $orderWrapper = Registry::getRegistry()->getOrderWrapper($order_id);
+            $this->process_payment_safe($orderWrapper);
+            return array(
+                'result' => 'success',
+                'redirect' => $this->get_return_url($order)
+            );
+        } catch (Throwable $e) {
+            ViewUtilsWoo::logAndGetMsg("processPayment", $e);
+            return array(
+                'result' => 'error',
+                'redirect' => $this->get_return_url($order)
+            );
+        } catch (Exception $e) { // для совместимости с php 5
+            ViewUtilsWoo::logAndGetMsg("processPayment", $e);
+            return array(
+                'result' => 'error',
+                'redirect' => $this->get_return_url($order)
+            );
+        }
+    }
+
+    /**
+     * @param OrderWrapper $orderWrapper
+     * @return mixed
+     */
+    protected abstract function process_payment_safe($orderWrapper);
 
     public function savesettings($configForm = null)
     {
