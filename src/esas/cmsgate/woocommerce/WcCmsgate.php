@@ -4,12 +4,13 @@ namespace esas\cmsgate\woocommerce;
 
 use esas\cmsgate\Registry;
 use esas\cmsgate\utils\Logger;
+use esas\cmsgate\view\admin\AdminViewFields;
 use esas\cmsgate\view\admin\ConfigForm;
-use esas\cmsgate\messenger\Messages;
 use esas\cmsgate\view\ViewUtilsWoo;
 use esas\cmsgate\wrappers\OrderWrapper;
 use Exception;
 use Throwable;
+use WC_Admin_Settings;
 use WC_Payment_Gateway;
 
 if (!defined('ABSPATH')) {
@@ -37,9 +38,9 @@ abstract class WcCmsgate extends WC_Payment_Gateway
         // $this->title = $this->get_option( 'title' );
         $this->init_settings();
         // The Title shown on the top of the Payment Gateways Page next to all the other Payment Gateways
-        $this->method_title = Registry::getRegistry()->getTranslator()->translate(Messages::ADMIN_PAYMENT_METHOD_NAME);
+        $this->method_title = Registry::getRegistry()->getTranslator()->translate(AdminViewFields::ADMIN_PAYMENT_METHOD_NAME);
         // The description for this Payment Gateway, shown on the actual Payment options page on the backend
-        $this->method_description = Registry::getRegistry()->getTranslator()->translate(Messages::ADMIN_PAYMENT_METHOD_DESCRIPTION);
+        $this->method_description = Registry::getRegistry()->getTranslator()->translate(AdminViewFields::ADMIN_PAYMENT_METHOD_DESCRIPTION);
         // The title to be used for the vertical tabs that can be ordered top to bottom
         $this->title = Registry::getRegistry()->getConfigWrapper()->getPaymentMethodName();
         // If you want to show an image next to the gateway's name on the frontend, enter a URL to an image.
@@ -59,7 +60,8 @@ abstract class WcCmsgate extends WC_Payment_Gateway
             add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
         }
         // добавляем хук для отображение ошибок, почему-то в wooсommerce ошибки валидации настроек не отображются по умолчанию
-        add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'display_settings_errors'));
+        // (использовался для wooсommerce 3.x)
+        // add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'display_settings_errors'));
     }
 
     /**
@@ -75,7 +77,8 @@ abstract class WcCmsgate extends WC_Payment_Gateway
         $value = parent::get_field_value($key, $field, $post_data);
         $validationResult = $this->configForm->getManagedFields()->validate($key, $value);
         if (!$validationResult->isValid())
-            throw new Exception($validationResult->getErrorTextFull()); //TODO
+            WC_Admin_Settings::add_error($validationResult->getErrorTextFull());
+//            throw new Exception($validationResult->getErrorTextFull()); //в woocommerce 4.x это уже не работало
         return $value;
     }
 
@@ -86,10 +89,11 @@ abstract class WcCmsgate extends WC_Payment_Gateway
         $this->form_fields = $this->configForm->generate();
     }
 
-    public function display_settings_errors()
-    {
-        $this->display_errors();
-    }
+//    в версии 3.x этот хук использовался для отображения ошибок
+//    public function display_settings_errors()
+//    {
+//        $this->display_errors();
+//    }
 
     // Submit payment and handle response
     public function process_payment($order_id)

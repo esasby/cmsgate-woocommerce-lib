@@ -9,6 +9,7 @@
 
 namespace esas\cmsgate\view\admin;
 
+use esas\cmsgate\Registry;
 use esas\cmsgate\view\admin\fields\ConfigField;
 use esas\cmsgate\view\admin\fields\ConfigFieldCheckbox;
 use esas\cmsgate\view\admin\fields\ConfigFieldList;
@@ -112,9 +113,9 @@ class ConfigFormWoo extends ConfigFormArray
     public function addCmsManagedFields()
     {
         $this->managedFields->addField(new ConfigFieldCheckbox(
-            'enabled',
-            __('enable_disable_payments_gateway', 'woocommerce-hutkigrosh-payments'),
-            __('enable_disable_payments_gateway_desc', 'woocommerce-hutkigrosh-payments')
+            AdminViewFieldsWoo::ENABLE_MODULE,
+            Registry::getRegistry()->getTranslator()->translate(AdminViewFieldsWoo::ENABLE_MODULE),
+            ''
         ));
         return $this;
     }
