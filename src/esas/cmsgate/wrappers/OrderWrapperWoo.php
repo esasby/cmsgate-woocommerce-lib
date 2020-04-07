@@ -20,7 +20,7 @@ class OrderWrapperWoo extends OrderSafeWrapper
     public function __construct($orderId)
     {
         parent::__construct();
-        if ($orderId == null) {
+        if ($orderId == null) { //legacy only see \esas\cmsgate\wrappers\OrderWrapperFactoryWoo::getOrderWrapperByOrderForCurrentUser
             $currentUser = get_current_user_id();
             $lastOrder = wc_get_customer_last_order($currentUser);
             $orderId = $lastOrder->get_id();
