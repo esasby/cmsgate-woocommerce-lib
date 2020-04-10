@@ -17,7 +17,7 @@ class OrderWrapperFactoryWoo extends OrderWrapperFactory
         return new OrderWrapperWoo($orderId);
     }
 
-    public function getOrderWrapperByOrderForCurrentUser()
+    public function getOrderWrapperForCurrentUser()
     {
         $currentUser = get_current_user_id();
         $lastOrder = wc_get_customer_last_order($currentUser);
