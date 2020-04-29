@@ -101,10 +101,10 @@ abstract class WcCmsgate extends WC_Payment_Gateway
         try {
             $order = wc_get_order($order_id);
             $orderWrapper = Registry::getRegistry()->getOrderWrapper($order_id);
-            $this->process_payment_safe($orderWrapper);
+            $redirect = $this->process_payment_safe($orderWrapper);
             return array(
                 'result' => 'success',
-                'redirect' => $this->get_return_url($order)
+                'redirect' => ($redirect != '' ) ? $redirect : $this->get_return_url($order)
             );
         } catch (Throwable $e) {
             ViewUtilsWoo::logAndGetMsg("processPayment", $e);
