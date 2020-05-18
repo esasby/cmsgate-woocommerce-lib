@@ -11,6 +11,7 @@ namespace esas\cmsgate\view\admin;
 
 use esas\cmsgate\utils\htmlbuilder\Attributes as attribute;
 use esas\cmsgate\utils\htmlbuilder\Elements as element;
+use esas\cmsgate\utils\UploadedFileWrapper;
 use esas\cmsgate\view\admin\fields\ConfigField;
 use esas\cmsgate\view\admin\fields\ConfigFieldCheckbox;
 use esas\cmsgate\view\admin\fields\ConfigFieldFile;
@@ -123,12 +124,17 @@ class ConfigFormWooHtml extends ConfigFormHtml
                     self::elementValidationError($configField),
                     element::p(
                         element::font(
-                            attribute::color("green"),
+                            attribute::color($this->getFileColor($configField->getValue())),
                             element::content($configField->getValue())
                         )
                     )
                 )
             );
+    }
+
+    private function getFileColor($fileName) {
+        $file = new UploadedFileWrapper($fileName);
+        return $file->isExists() ? "green" : "red";
     }
 
     public function generateCheckboxField(ConfigFieldCheckbox $configField)

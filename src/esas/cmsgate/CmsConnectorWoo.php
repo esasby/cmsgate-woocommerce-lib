@@ -9,7 +9,6 @@
 namespace esas\cmsgate;
 
 use esas\cmsgate\lang\LocaleLoaderWoo;
-use esas\cmsgate\view\admin\AdminViewFields;
 use esas\cmsgate\wrappers\OrderWrapperWoo;
 use esas\cmsgate\wrappers\SystemSettingsWrapperWoo;
 

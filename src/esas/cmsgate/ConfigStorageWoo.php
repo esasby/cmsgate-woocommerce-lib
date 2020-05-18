@@ -14,10 +14,6 @@ class ConfigStorageWoo extends ConfigStorageCms
 {
     private $settings;
 
-    /**
-     * ConfigurationWrapperOpencart constructor.
-     * @param $config
-     */
     public function __construct()
     {
         parent::__construct();
