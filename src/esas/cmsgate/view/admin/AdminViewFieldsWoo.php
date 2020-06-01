@@ -11,5 +11,5 @@ namespace esas\cmsgate\view\admin;
 
 class AdminViewFieldsWoo
 {
-    const ENABLE_MODULE = 'enable';
+    const ENABLE_MODULE = 'enabled';
 }
