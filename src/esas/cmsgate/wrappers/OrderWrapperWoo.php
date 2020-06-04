@@ -133,7 +133,8 @@ class OrderWrapperWoo extends OrderSafeWrapper
         return $productsWrappers;
     }
 
-    const EXTID_METADATA_KEY = 'ext_order_id';
+    const EXTID_METADATA_KEY = 'epos_ext_order_id';
+    const EXTID_ORDER_NUMBER_KEY = 'epos_wc_order_number';
 
     /**
      * BillId (идентификатор хуткигрош) успешно выставленного счета
@@ -173,6 +174,8 @@ class OrderWrapperWoo extends OrderSafeWrapper
     public function saveExtId($billId)
     {
         $this->wc_order->update_meta_data( self::EXTID_METADATA_KEY, $billId);
+        // дополнительно сохраняем в метаданных orderNumber, т.к. не нашел, где он хранится в БД
+        $this->wc_order->update_meta_data( self::EXTID_ORDER_NUMBER_KEY, $this->getOrderNumber());
         $this->wc_order->save();
     }
 

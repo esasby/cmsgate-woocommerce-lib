@@ -41,6 +41,20 @@ class CmsConnectorWoo extends CmsConnector
         return new OrderWrapperWoo($orderId);
     }
 
+    public function createOrderWrapperByOrderNumber($orderNumber)
+    {
+        /** @var WP_Post[] $posts */
+        $posts = get_posts( array(
+            'meta_key'    => OrderWrapperWoo::EXTID_ORDER_NUMBER_KEY,
+            'meta_value'  => $orderNumber,
+            'post_type'   => 'shop_order',
+            'post_status' => 'any'
+        ));
+        $post = $posts[0];
+        return $this->createOrderWrapperByOrderId($post->ID);
+    }
+
+
     public function createOrderWrapperForCurrentUser()
     {
         $currentUser = get_current_user_id();
@@ -77,7 +91,7 @@ class CmsConnectorWoo extends CmsConnector
         return new CmsConnectorDescriptor(
             "cmsgate-woocommerce-lib",
             new VersionDescriptor(
-                "v1.10.0",
+                "v1.10.1",
                 "2020-06-03"
             ),
             "Cmsgate Woocommerce connector",
