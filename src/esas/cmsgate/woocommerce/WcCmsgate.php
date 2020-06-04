@@ -69,7 +69,7 @@ abstract class WcCmsgate extends WC_Payment_Gateway
      * @param string $key
      * @param array $field
      * @param array $post_data
-     * @return string|void
+     * @return string
      * @throws Exception
      */
     public function get_field_value($key, $field, $post_data = array())

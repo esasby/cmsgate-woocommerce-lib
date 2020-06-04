@@ -8,9 +8,13 @@
 
 namespace esas\cmsgate;
 
+use esas\cmsgate\descriptors\CmsConnectorDescriptor;
+use esas\cmsgate\descriptors\VendorDescriptor;
+use esas\cmsgate\descriptors\VersionDescriptor;
 use esas\cmsgate\lang\LocaleLoaderWoo;
 use esas\cmsgate\wrappers\OrderWrapperWoo;
 use esas\cmsgate\wrappers\SystemSettingsWrapperWoo;
+use WP_Post;
 
 class CmsConnectorWoo extends CmsConnector
 {
@@ -66,5 +70,20 @@ class CmsConnectorWoo extends CmsConnector
     public function createLocaleLoader()
     {
         return new LocaleLoaderWoo();
+    }
+
+    public function createCmsConnectorDescriptor()
+    {
+        return new CmsConnectorDescriptor(
+            "cmsgate-woocommerce-lib",
+            new VersionDescriptor(
+                "v1.10.0",
+                "2020-06-03"
+            ),
+            "Cmsgate Woocommerce connector",
+            "https://bitbucket.esas.by/projects/CG/repos/cmsgate-woocommerce-lib/browse",
+            VendorDescriptor::esas(),
+            "woocommerce"
+        );
     }
 }

@@ -24,6 +24,7 @@ class OrderProductWrapperWoo extends OrderProductSafeWrapper
      */
     public function __construct($orderProduct)
     {
+        parent::__construct();
         $this->orderProduct = $orderProduct;
     }
 

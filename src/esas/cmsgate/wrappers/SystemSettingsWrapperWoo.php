@@ -8,8 +8,6 @@
 
 namespace esas\cmsgate\wrappers;
 
-use esas\cmsgate\utils\OpencartVersion;
-
 class SystemSettingsWrapperWoo extends SystemSettingsWrapper
 {
 
