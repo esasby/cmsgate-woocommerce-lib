@@ -85,11 +85,15 @@ class ConfigFormWoo extends ConfigFormArray
 
     public function generateListField(ConfigFieldList $configField)
     {
+        $optionsArray = array();
+        foreach ($configField->getOptions() as $option) {
+            $optionsArray[$option->getValue()] = $option->getName();
+        }
         $ret = array(
             'title' => $configField->getName(),
             'type' => 'select',
             'desc_tip' => $configField->getDescription(),
-            'options' => wc_get_order_statuses()
+            'options' => $optionsArray
         );
 //        if ($configField->hasDefault()) {
 //            $ret['default'] = $configField->getDefault();
