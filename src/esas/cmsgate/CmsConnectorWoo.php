@@ -91,8 +91,8 @@ class CmsConnectorWoo extends CmsConnector
         return new CmsConnectorDescriptor(
             "cmsgate-woocommerce-lib",
             new VersionDescriptor(
-                "v1.11.0",
-                "2020-07-10"
+                "v1.12.0",
+                "2020-10-20"
             ),
             "Cmsgate Woocommerce connector",
             "https://bitbucket.esas.by/projects/CG/repos/cmsgate-woocommerce-lib/browse",
