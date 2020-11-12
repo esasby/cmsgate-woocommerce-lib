@@ -66,6 +66,7 @@ class OrderProductWrapperWoo extends OrderProductSafeWrapper
      */
     public function getUnitPriceUnsafe()
     {
-        return $this->orderProduct->get_subtotal();
+//        return $this->orderProduct->get_subtotal();
+        return $this->orderProduct->get_order()->get_item_total($this->orderProduct); //стоимость товара можно получить только так
     }
 }
