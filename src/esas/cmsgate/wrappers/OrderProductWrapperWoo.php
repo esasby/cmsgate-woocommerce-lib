@@ -66,6 +66,6 @@ class OrderProductWrapperWoo extends OrderProductSafeWrapper
      */
     public function getUnitPriceUnsafe()
     {
-        return $this->orderProduct->get_total();
+        return $this->orderProduct->get_subtotal();
     }
 }

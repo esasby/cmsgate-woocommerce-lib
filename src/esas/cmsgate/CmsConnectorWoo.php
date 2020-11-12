@@ -18,11 +18,12 @@ use WP_Post;
 
 class CmsConnectorWoo extends CmsConnector
 {
-        /**
+    /**
      * Для удобства работы в IDE и подсветки синтаксиса.
      * @return $this
      */
-    public static function getInstance() {
+    public static function getInstance()
+    {
         return Registry::getRegistry()->getSystemSettingsWrapper();
     }
 
@@ -44,10 +45,10 @@ class CmsConnectorWoo extends CmsConnector
     public function createOrderWrapperByOrderNumber($orderNumber)
     {
         /** @var WP_Post[] $posts */
-        $posts = get_posts( array(
-            'meta_key'    => OrderWrapperWoo::EXTID_ORDER_NUMBER_KEY,
-            'meta_value'  => $orderNumber,
-            'post_type'   => 'shop_order',
+        $posts = get_posts(array(
+            'meta_key' => OrderWrapperWoo::EXTID_ORDER_NUMBER_KEY,
+            'meta_value' => $orderNumber,
+            'post_type' => 'shop_order',
             'post_status' => 'any'
         ));
         $post = $posts[0];
@@ -66,10 +67,10 @@ class CmsConnectorWoo extends CmsConnector
     public function createOrderWrapperByExtId($extId)
     {
         /** @var WP_Post[] $posts */
-        $posts = get_posts( array(
-            'meta_key'    => OrderWrapperWoo::EXTID_METADATA_KEY,
-            'meta_value'  => $extId,
-            'post_type'   => 'shop_order',
+        $posts = get_posts(array(
+            'meta_key' => OrderWrapperWoo::EXTID_METADATA_KEY,
+            'meta_value' => $extId,
+            'post_type' => 'shop_order',
             'post_status' => 'any'
         ));
         $post = $posts[0];
@@ -91,13 +92,23 @@ class CmsConnectorWoo extends CmsConnector
         return new CmsConnectorDescriptor(
             "cmsgate-woocommerce-lib",
             new VersionDescriptor(
-                "v1.12.0",
-                "2020-10-20"
+                "v1.13.0",
+                "2020-11-12"
             ),
             "Cmsgate Woocommerce connector",
             "https://bitbucket.esas.by/projects/CG/repos/cmsgate-woocommerce-lib/browse",
             VendorDescriptor::esas(),
             "woocommerce"
         );
+    }
+
+    public function getConstantConfigValue($key)
+    {
+        switch ($key) {
+            case ConfigFields::useOrderNumber(): // в woo orderNumber управляется внешними плагинами, поэтому перекладываем на них ответсвенность
+                return true;
+            default:
+                return parent::getConstantConfigValue($key);
+        }
     }
 }
