@@ -8,6 +8,7 @@
 
 namespace esas\cmsgate\wrappers;
 
+use esas\cmsgate\OrderStatus;
 use Throwable;
 
 class OrderWrapperWoo extends OrderSafeWrapper
@@ -47,8 +48,8 @@ class OrderWrapperWoo extends OrderSafeWrapper
 
     /**
      * Полное имя покупателя
-     * @throws Throwable
      * @return string
+     * @throws Throwable
      */
     public function getFullNameUnsafe()
     {
@@ -61,8 +62,8 @@ class OrderWrapperWoo extends OrderSafeWrapper
     /**
      * Мобильный номер покупателя для sms-оповещения
      * (если включено администратором)
-     * @throws Throwable
      * @return string
+     * @throws Throwable
      */
     public function getMobilePhoneUnsafe()
     {
@@ -72,8 +73,8 @@ class OrderWrapperWoo extends OrderSafeWrapper
     /**
      * Email покупателя для email-оповещения
      * (если включено администратором)
-     * @throws Throwable
      * @return string
+     * @throws Throwable
      */
     public function getEmailUnsafe()
     {
@@ -82,8 +83,8 @@ class OrderWrapperWoo extends OrderSafeWrapper
 
     /**
      * Физический адрес покупателя
-     * @throws Throwable
      * @return string
+     * @throws Throwable
      */
     public function getAddressUnsafe()
     {
@@ -101,8 +102,8 @@ class OrderWrapperWoo extends OrderSafeWrapper
 
     /**
      * Общая сумма товаров в заказе
-     * @throws Throwable
      * @return string
+     * @throws Throwable
      */
     public function getAmountUnsafe()
     {
@@ -111,8 +112,8 @@ class OrderWrapperWoo extends OrderSafeWrapper
 
     /**
      * Валюта заказа (буквенный код)
-     * @throws Throwable
      * @return string
+     * @throws Throwable
      */
     public function getCurrencyUnsafe()
     {
@@ -121,8 +122,8 @@ class OrderWrapperWoo extends OrderSafeWrapper
 
     /**
      * Массив товаров в заказе
-     * @throws Throwable
      * @return OrderProductWrapper[]
+     * @throws Throwable
      */
     public function getProductsUnsafe()
     {
@@ -138,8 +139,8 @@ class OrderWrapperWoo extends OrderSafeWrapper
 
     /**
      * BillId (идентификатор хуткигрош) успешно выставленного счета
-     * @throws Throwable
      * @return mixed
+     * @throws Throwable
      */
     public function getExtIdUnsafe()
     {
@@ -148,22 +149,24 @@ class OrderWrapperWoo extends OrderSafeWrapper
 
     /**
      * Текущий статус заказа в CMS
-     * @return mixed
+     * @return OrderStatus
      * @throws Throwable
      */
     public function getStatusUnsafe()
     {
-        return $this->wc_order->get_status();
+        return new OrderStatus(
+            $this->wc_order->get_status(),
+            $this->wc_order->get_status());
     }
 
     /**
      * Обновляет статус заказа в БД
-     * @param $newStatus
+     * @param OrderStatus $newStatus
      * @throws Throwable
      */
     public function updateStatus($newStatus)
     {
-        $this->wc_order->update_status($newStatus);
+        $this->wc_order->update_status($newStatus->getOrderStatus());
     }
 
     /**
@@ -173,17 +176,17 @@ class OrderWrapperWoo extends OrderSafeWrapper
      */
     public function saveExtId($billId)
     {
-        $this->wc_order->update_meta_data( self::EXTID_METADATA_KEY, $billId);
+        $this->wc_order->update_meta_data(self::EXTID_METADATA_KEY, $billId);
         // дополнительно сохраняем в метаданных orderNumber, т.к. не нашел, где он хранится в БД
-        $this->wc_order->update_meta_data( self::EXTID_ORDER_NUMBER_KEY, $this->getOrderNumber());
+        $this->wc_order->update_meta_data(self::EXTID_ORDER_NUMBER_KEY, $this->getOrderNumber());
         $this->wc_order->save();
     }
 
 
     /**
      * Идентификатор клиента
-     * @throws Throwable
      * @return string
+     * @throws Throwable
      */
     public function getClientIdUnsafe()
     {

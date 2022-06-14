@@ -57,4 +57,14 @@ class ConfigStorageWoo extends ConfigStorageCms
         update_option("woocommerce_" . Registry::getRegistry()->getPaySystemName() . "_settings", $this->settings);
         //todo D:/work/esas/sources/php/CMSSources/wordpress/wp-content/plugins/woocommerce/includes/abstracts/abstract-wc-settings-api.php:219
     }
+
+    public function getConstantConfigValue($key)
+    {
+        switch ($key) {
+            case ConfigFields::useOrderNumber(): // в woo orderNumber управляется внешними плагинами, поэтому перекладываем на них ответсвенность
+                return true;
+            default:
+                return parent::getConstantConfigValue($key);
+        }
+    }
 }

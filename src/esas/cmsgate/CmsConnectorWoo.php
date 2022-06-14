@@ -92,8 +92,8 @@ class CmsConnectorWoo extends CmsConnector
         return new CmsConnectorDescriptor(
             "cmsgate-woocommerce-lib",
             new VersionDescriptor(
-                "v1.14.1",
-                "2021-12-08"
+                "v1.17.0",
+                "2022-06-14"
             ),
             "Cmsgate Woocommerce connector",
             "https://bitbucket.esas.by/projects/CG/repos/cmsgate-woocommerce-lib/browse",
@@ -102,13 +102,5 @@ class CmsConnectorWoo extends CmsConnector
         );
     }
 
-    public function getConstantConfigValue($key)
-    {
-        switch ($key) {
-            case ConfigFields::useOrderNumber(): // в woo orderNumber управляется внешними плагинами, поэтому перекладываем на них ответсвенность
-                return true;
-            default:
-                return parent::getConstantConfigValue($key);
-        }
-    }
+
 }

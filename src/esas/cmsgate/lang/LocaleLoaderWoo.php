@@ -10,14 +10,19 @@ namespace esas\cmsgate\lang;
 
 class LocaleLoaderWoo extends LocaleLoaderCms
 {
+
+
+    /**
+     * LocaleLoaderWoo constructor.
+     */
+    public function __construct()
+    {
+        $this->addExtraVocabularyDir(dirname(__FILE__));
+    }
+
     public function getLocale()
     {
         return get_locale();
     }
 
-
-    public function getCmsVocabularyDir()
-    {
-        return dirname(__FILE__);
-    }
 }
