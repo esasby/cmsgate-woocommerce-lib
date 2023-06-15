@@ -6,9 +6,10 @@
  * Time: 13:08
  */
 
-namespace esas\cmsgate\wrappers;
+namespace esas\cmsgate\woocommerce\wrappers;
 
 use esas\cmsgate\OrderStatus;
+use esas\cmsgate\wrappers\OrderSafeWrapper;
 use Throwable;
 
 class OrderWrapperWoo extends OrderSafeWrapper
@@ -154,9 +155,10 @@ class OrderWrapperWoo extends OrderSafeWrapper
      */
     public function getStatusUnsafe()
     {
-        return new OrderStatus(
-            $this->wc_order->get_status(),
-            $this->wc_order->get_status());
+        $status = $this->wc_order->get_status();
+        if (strpos($status, 'wc-') === false)
+            $status = 'wc-' . $status;
+        return new OrderStatus($status,$status);
     }
 
     /**

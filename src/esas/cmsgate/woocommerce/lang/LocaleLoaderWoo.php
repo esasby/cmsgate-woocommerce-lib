@@ -6,7 +6,9 @@
  * Time: 13:09
  */
 
-namespace esas\cmsgate\lang;
+namespace esas\cmsgate\woocommerce\lang;
+
+use esas\cmsgate\lang\LocaleLoaderCms;
 
 class LocaleLoaderWoo extends LocaleLoaderCms
 {

@@ -6,12 +6,13 @@
  * Time: 16:05
  */
 
-namespace esas\cmsgate\view\admin;
+namespace esas\cmsgate\woocommerce\view\admin;
 
 
 use esas\cmsgate\utils\htmlbuilder\Attributes as attribute;
 use esas\cmsgate\utils\htmlbuilder\Elements as element;
 use esas\cmsgate\utils\UploadedFileWrapper;
+use esas\cmsgate\view\admin\ConfigFormHtml;
 use esas\cmsgate\view\admin\fields\ConfigField;
 use esas\cmsgate\view\admin\fields\ConfigFieldCheckbox;
 use esas\cmsgate\view\admin\fields\ConfigFieldFile;

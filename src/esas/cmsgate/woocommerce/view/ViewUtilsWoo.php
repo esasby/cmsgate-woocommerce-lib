@@ -6,8 +6,10 @@
  * Time: 11:27
  */
 
-namespace esas\cmsgate\view;
+namespace esas\cmsgate\woocommerce\view;
 
+
+use esas\cmsgate\view\ViewUtils;
 
 class ViewUtilsWoo extends ViewUtils
 {

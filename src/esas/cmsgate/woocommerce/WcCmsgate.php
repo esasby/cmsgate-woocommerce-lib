@@ -6,7 +6,7 @@ use esas\cmsgate\Registry;
 use esas\cmsgate\utils\Logger;
 use esas\cmsgate\view\admin\AdminViewFields;
 use esas\cmsgate\view\admin\ConfigForm;
-use esas\cmsgate\view\ViewUtilsWoo;
+use esas\cmsgate\woocommerce\view\ViewUtilsWoo;
 use esas\cmsgate\wrappers\OrderWrapper;
 use Exception;
 use Throwable;

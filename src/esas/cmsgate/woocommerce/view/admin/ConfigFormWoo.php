@@ -7,9 +7,10 @@
  * Time: 15:19
  */
 
-namespace esas\cmsgate\view\admin;
+namespace esas\cmsgate\woocommerce\view\admin;
 
-use esas\cmsgate\Registry;
+use esas\cmsgate\lang\Translator;
+use esas\cmsgate\view\admin\ConfigFormArray;
 use esas\cmsgate\view\admin\fields\ConfigField;
 use esas\cmsgate\view\admin\fields\ConfigFieldCheckbox;
 use esas\cmsgate\view\admin\fields\ConfigFieldList;
@@ -118,7 +119,7 @@ class ConfigFormWoo extends ConfigFormArray
     {
         $this->managedFields->addField(new ConfigFieldCheckbox(
             AdminViewFieldsWoo::ENABLE_MODULE,
-            Registry::getRegistry()->getTranslator()->translate(AdminViewFieldsWoo::ENABLE_MODULE),
+            Translator::fromRegistry()->translate(AdminViewFieldsWoo::ENABLE_MODULE),
             ''
         ));
         return $this;

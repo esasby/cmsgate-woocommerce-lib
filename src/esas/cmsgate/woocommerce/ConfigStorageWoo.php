@@ -6,8 +6,11 @@
  * Time: 13:14
  */
 
-namespace esas\cmsgate;
+namespace esas\cmsgate\woocommerce;
 
+use esas\cmsgate\ConfigFields;
+use esas\cmsgate\ConfigStorageCms;
+use esas\cmsgate\Registry;
 use Exception;
 
 class ConfigStorageWoo extends ConfigStorageCms

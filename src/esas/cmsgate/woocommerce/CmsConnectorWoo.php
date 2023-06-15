@@ -6,14 +6,18 @@
  * Time: 12:23
  */
 
-namespace esas\cmsgate;
+namespace esas\cmsgate\woocommerce;
 
+use esas\cmsgate\CmsConnector;
 use esas\cmsgate\descriptors\CmsConnectorDescriptor;
 use esas\cmsgate\descriptors\VendorDescriptor;
 use esas\cmsgate\descriptors\VersionDescriptor;
-use esas\cmsgate\lang\LocaleLoaderWoo;
-use esas\cmsgate\wrappers\OrderWrapperWoo;
-use esas\cmsgate\wrappers\SystemSettingsWrapperWoo;
+use esas\cmsgate\hro\HROManager;
+use esas\cmsgate\hro\panels\MessagesPanelHRO;
+use esas\cmsgate\Registry;
+use esas\cmsgate\woocommerce\hro\panels\MessagesPanelHRO_Woo;
+use esas\cmsgate\woocommerce\lang\LocaleLoaderWoo;
+use esas\cmsgate\woocommerce\wrappers\OrderWrapperWoo;
 use WP_Post;
 
 class CmsConnectorWoo extends CmsConnector
@@ -22,19 +26,21 @@ class CmsConnectorWoo extends CmsConnector
      * Для удобства работы в IDE и подсветки синтаксиса.
      * @return $this
      */
-    public static function getInstance()
+    public static function fromRegistry()
     {
-        return Registry::getRegistry()->getSystemSettingsWrapper();
+        return Registry::getRegistry()->getCmsConnector();
     }
+
+    public function init() {
+        parent::init();
+
+        HROManager::fromRegistry()->addImplementation(MessagesPanelHRO::class, MessagesPanelHRO_Woo::class);
+    }
+
 
     public function createCommonConfigForm($managedFields)
     {
         // not implemented
-    }
-
-    public function createSystemSettingsWrapper()
-    {
-        return new SystemSettingsWrapperWoo();
     }
 
     public function createOrderWrapperByOrderId($orderId)
@@ -54,7 +60,6 @@ class CmsConnectorWoo extends CmsConnector
         $post = $posts[0];
         return $this->createOrderWrapperByOrderId($post->ID);
     }
-
 
     public function createOrderWrapperForCurrentUser()
     {
@@ -92,8 +97,8 @@ class CmsConnectorWoo extends CmsConnector
         return new CmsConnectorDescriptor(
             "cmsgate-woocommerce-lib",
             new VersionDescriptor(
-                "v1.17.0",
-                "2022-06-14"
+                "v2.0.0",
+                "2023-06-14"
             ),
             "Cmsgate Woocommerce connector",
             "https://bitbucket.esas.by/projects/CG/repos/cmsgate-woocommerce-lib/browse",

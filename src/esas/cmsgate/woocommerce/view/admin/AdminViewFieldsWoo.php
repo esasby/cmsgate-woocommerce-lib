@@ -6,7 +6,7 @@
  * Time: 14:48
  */
 
-namespace esas\cmsgate\view\admin;
+namespace esas\cmsgate\woocommerce\view\admin;
 
 
 class AdminViewFieldsWoo

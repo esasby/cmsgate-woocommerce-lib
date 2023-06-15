@@ -15,7 +15,7 @@ function cmsgate_settings_link($links)
     $plugin_links = array(
         element::a(
             attribute::href(admin_url('admin.php?page=wc-settings&tab=checkout&section=' . Registry::getRegistry()->getPaySystemName())),
-            element::content(Registry::getRegistry()->getTranslator()->translate(AdminViewFields::SETTINGS))
+            element::content(\esas\cmsgate\lang\Translator::fromRegistry()->translate(AdminViewFields::SETTINGS))
         )->__toString()
     );
     // Merge our new link with the default ones

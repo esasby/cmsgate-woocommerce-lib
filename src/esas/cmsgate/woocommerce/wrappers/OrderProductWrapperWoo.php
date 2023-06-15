@@ -6,8 +6,9 @@
  * Time: 14:01
  */
 
-namespace esas\cmsgate\wrappers;
+namespace esas\cmsgate\woocommerce\wrappers;
 
+use esas\cmsgate\wrappers\OrderProductSafeWrapper;
 use Throwable;
 use WC_Order_Item;
 
